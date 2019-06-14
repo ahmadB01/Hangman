@@ -41,9 +41,9 @@ def init_scores():
 
     if username in scores.keys():
         score = scores[username]
-        print('Welcome back {}'.format(username))
+        print(f'Welcome back {username}')
     else:
-        print('Welcome {}'.format(username))
+        print(f'Welcome {username}')
 
     return (username, score, scores)
 

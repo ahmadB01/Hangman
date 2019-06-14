@@ -14,39 +14,39 @@ while restart == 'Y':
     
     # scores initialization
     username, score, scores = datas.init_scores()
-    print('{}\'s score : {}'.format(username, score))
+    print(f'{username}\'s score : {score}')
     
     # hangman game
     while display != word and lives >= 0:
         # drawing display
         for drawing in drawings[::-1][lives]:
-            print('\t\t'+drawing)
-        print('Word: {}'.format(display))
+            print(f'\t\t{drawing}')
+        print(f'Word: {display}')
 
         letter = ''
         while not letter.isalpha() or len(letter) != 1:
             letter = input('Enter a letter: ').upper()
         
         if letter in word:
-            print('Yes, the word contains the \'{}\' letter!'.format(letter))
+            print(f'Yes, the word contains the \'{letter}\' letter!')
             for i, k in enumerate(word):
                 if k == letter:
                     display = display[:i] + letter + display[i+1:]
         else:
-            print('Nop, the word does not contain the \'{}\' letter!'.format(letter))
+            print(f'Nop, the word does not contain the \'{letter}\' letter!')
             lives -= 1
                 
     system('clear')
     if lives >= 0:
         # won
         score += lives
-        print('Congratulations, you won with {} tries left!'.format(lives))
-        print('Therefore, {}\'s score is {}'.format(username, score))
+        print(f'Congratulations, you won with {lives} tries left!')
+        print(f'Therefore, {username}\'s score is {score}')
     else:
         # lost
-        print('You lost! {}\'s score is {}'.format(username, score))
+        print(f'You lost! {username}\'s score is {score}')
 
-    print('The word is indeed : {}'.format(word))
+    print(f'The word is indeed : {word}')
 
     # scores registration
     scores[username] = score
