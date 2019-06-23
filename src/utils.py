@@ -1,22 +1,28 @@
-from random import choice
+import random
 import json
 import os
+
+def random_style():
+    path = 'titles/'
+    n = random.randint(0, len(os.listdir(path))-1)
+    with open(path+str(n), 'r') as tf:
+        return tf.read()
 
 def get_random_word():
     """
         Returns a random word from the list in the
         data/words.json file
     """
-    with open('src/data/words.json', 'r') as wf:
+    with open('data/words.json', 'r') as wf:
         words = json.loads(wf.read())
-        return choice(words).upper()
+        return random.choice(words).upper()
 
 def register_scores(scores):
     """
         Writes the list of scores entered in the parameters
         to the datas/scores.json file
     """
-    with open('src/data/scores.json', 'w') as sf:
+    with open('data/scores.json', 'w') as sf:
         sf.write(json.dumps(scores))
 
 def init_scores():
@@ -27,8 +33,8 @@ def init_scores():
         scores = {username: score, ...}
     """
     scores = {}
-    if os.path.isfile('src/data/scores.json'):
-        with open('src/data/scores.json', 'r') as sf:
+    if os.path.isfile('data/scores.json'):
+        with open('data/scores.json', 'r') as sf:
             scores = json.loads(sf.read())
 
     username = ' '
@@ -52,6 +58,6 @@ def get_drawings():
         Returns the list of all the drawings
         for the Hangman game located in the datas/drawings.json file
     """
-    with open('src/data/drawings.json', 'r') as df:
+    with open('data/drawings.json', 'r') as df:
         drawings = json.loads(df.read())
         return drawings
