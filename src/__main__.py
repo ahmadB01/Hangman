@@ -1,19 +1,19 @@
-import datas
+import utils
 from os import system
 
 restart = 'Y'
-drawings = datas.get_drawings()
+drawings = utils.get_drawings()
 
 # replay loop
 while restart == 'Y':
     system('clear')
     restart = ' '
-    word = datas.get_random_word()
+    word = utils.get_random_word()
     display = '*' * len(word)
     lives = len(drawings)-1
     
     # scores initialization
-    username, score, scores = datas.init_scores()
+    username, score, scores = utils.init_scores()
     print(f'{username}\'s score : {score}')
     
     # hangman game
@@ -50,7 +50,7 @@ while restart == 'Y':
 
     # scores registration
     scores[username] = score
-    datas.register_scores(scores)
+    utils.register_scores(scores)
 
     while restart not in ('Y', 'N'):
         restart = input('Do you want to restart? (Y/N) ')[0].upper()
