@@ -1,5 +1,6 @@
 import urwid
 import view
+import model
 
 def main():
     register_events()

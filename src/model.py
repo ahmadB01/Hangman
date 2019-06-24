@@ -6,6 +6,9 @@ class Menu(urwid.WidgetPlaceholder):
         self.widgets = widgets
         self.original_widget = self.widgets[0]
 
+    def append(self, widget):
+        self.widgets.append(widget)
+
     def next(self):
         self.original_widget = self.widgets[self.widgets.index(self.original_widget)+1]
 
@@ -25,3 +28,16 @@ class Window(urwid.WidgetPlaceholder):
 
     def open(self, widget):
         self.original_widget = widget
+
+class Game(object):
+    def __init__(self):
+        pass
+
+    def init_scores(self):
+        pass
+
+    def register_scores(self):
+        pass
+
+    def random_word(self):
+        pass

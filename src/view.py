@@ -1,6 +1,5 @@
 import urwid
 import utils
-import controller
 from model import Menu
 
 palette = [
@@ -8,6 +7,24 @@ palette = [
     ('ask', 'default,bold', 'default', 'bold')]
 
 title = urwid.Filler(urwid.Text(utils.random_style(), align='center'))
+
+t_username = urwid.Text('')
+b_start = urwid.Button('Start!')
+
+m_newuser = urwid.Overlay(
+    urwid.LineBox(
+        urwid.Pile([
+            ('pack', urwid.Divider()),
+            ('pack', urwid.Text(('ask', 'Welcome.'), align='center')),
+            ('weight', 5, urwid.Filler(
+                urwid.Text('Looks like you are new here.\nYour score has been initialized at 0.'))),
+            ('weight', 2, urwid.Filler(
+                urwid.AttrMap(b_start, None, focus_map='reversed'),
+                valign='bottom'))]),
+        title='Hi!'),
+    urwid.SolidFill(' '),
+    align='center', width=('relative', 50),
+    valign='middle', height=('relative', 50))
 
 b_enter = urwid.Button('Enter')
 e_username = urwid.Edit(('ask', 'Enter your name:\n> '))
