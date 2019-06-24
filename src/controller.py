@@ -14,4 +14,15 @@ def main():
 		pass
 
 def register_events():
+	urwid.connect_signal(view.b_game, 'click', begin)
+	urwid.connect_signal(view.b_quit, 'click', quit)
+	urwid.connect_signal(view.b_enter, 'click', enter)
+
+def begin(_button):
+	change_screen(view.signin)
+
+def quit(_button):
+	raise urwid.ExitMainLoop()
+
+def enter(_button):
 	pass
