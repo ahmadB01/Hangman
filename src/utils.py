@@ -3,7 +3,7 @@ import json
 import os
 
 def random_style():
-    path = 'titles/'
+    path = '/home/ahmad/workspace/Hangman/src/titles/'
     n = random.randint(0, len(os.listdir(path))-1)
     with open(path+str(n), 'r') as tf:
         return tf.read()
