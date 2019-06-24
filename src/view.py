@@ -1,7 +1,7 @@
 import urwid
 import utils
 import controller
-from model import App
+from model import Menu
 
 palette = [
 	('reversed', 'standout', ''),
@@ -12,7 +12,7 @@ title = urwid.Filler(urwid.Text(utils.random_style(), align='center'))
 b_enter = urwid.Button('Enter')
 e_username = urwid.Edit(('ask', 'Enter your name:\n> '))
 
-signin = urwid.Overlay(
+m_login = urwid.Overlay(
 	urwid.LineBox(
 		urwid.Pile([
 			('pack', urwid.Divider()),
@@ -28,7 +28,7 @@ signin = urwid.Overlay(
 b_game = urwid.Button('Enter Game')
 b_quit = urwid.Button('Quit')
 
-s_welcome = urwid.Overlay(
+m_welcome = urwid.Overlay(
 	urwid.LineBox(
 		urwid.Pile([
 			('pack', urwid.Divider()),
@@ -44,4 +44,4 @@ s_welcome = urwid.Overlay(
 	align='center', width=('relative', 50),
 	valign='middle', height=('relative', 50))
 
-body = App(s_welcome)
+body = Menu([m_welcome, m_login])

@@ -1,9 +1,6 @@
 import urwid
 import view
 
-def change_screen(screen):
-	view.body.open(screen)
-
 def main():
 	register_events()
 	
@@ -14,12 +11,12 @@ def main():
 		pass
 
 def register_events():
-	urwid.connect_signal(view.b_game, 'click', begin)
+	urwid.connect_signal(view.b_game, 'click', login)
 	urwid.connect_signal(view.b_quit, 'click', quit)
 	urwid.connect_signal(view.b_enter, 'click', enter)
 
-def begin(_button):
-	change_screen(view.signin)
+def login(_button):
+	view.body.next()
 
 def quit(_button):
 	raise urwid.ExitMainLoop()
