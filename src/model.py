@@ -4,18 +4,15 @@ class Menu(urwid.WidgetPlaceholder):
 	def __init__(self, widgets):
 		super(Menu, self).__init__(urwid.SolidFill(' '))
 		self.widgets = widgets
-		self.current = widgets[0]
-		self.original_widget = self.current
+		self.original_widget = self.widgets[0]
 
 	def next(self):
-		self.original_widget = self.widgets[self.widgets.index(self.current)+1]
-		self.current = self.original_widget
+		self.original_widget = self.widgets[self.widgets.index(self.original_widget)+1]
 
 	def keypress(self, size, key):
 		if key == 'esc':
-			if self.widgets.index(self.current) > 0:
-				self.original_widget = self.widgets[self.widgets.index(self.current)-1]
-				self.current = self.original_widget
+			if self.widgets.index(self.original_widget) > 0:
+				self.original_widget = self.widgets[self.widgets.index(self.original_widget)-1]
 			else:
 				raise urwid.ExitMainLoop()
 		else:
