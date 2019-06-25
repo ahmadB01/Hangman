@@ -1,2 +1,3 @@
 __pycache__/
-src/data/scores.json
+score
+.vscode/
