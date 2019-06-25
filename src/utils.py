@@ -17,4 +17,4 @@ def random_word():
 def drawings():
     path = '/home/ahmad/workspace/Hangman/src/data/drawings.json'
     with open(path, 'r') as df:
-        return '\n'.join(json.loads(df.read()))
+        return json.loads(df.read())
