@@ -1,6 +1,6 @@
 import urwid
 import utils
-from model import Menu
+import model
 
 palette = [
     ('reversed', 'standout', ''),
@@ -8,23 +8,31 @@ palette = [
 
 title = urwid.Filler(urwid.Text(utils.random_style(), align='center'))
 
-t_username = urwid.Text('')
+t_player = urwid.Text('')
+t_score = urwid.Text('')
 b_start = urwid.Button('Start!')
 
-m_newuser = urwid.Overlay(
-    urwid.LineBox(
-        urwid.Pile([
-            ('pack', urwid.Divider()),
-            ('pack', urwid.Text(('ask', 'Welcome.'), align='center')),
-            ('weight', 5, urwid.Filler(
-                urwid.Text('Looks like you are new here.\nYour score has been initialized at 0.'))),
-            ('weight', 2, urwid.Filler(
-                urwid.AttrMap(b_start, None, focus_map='reversed'),
-                valign='bottom'))]),
-        title='Hi!'),
-    urwid.SolidFill(' '),
-    align='center', width=('relative', 50),
-    valign='middle', height=('relative', 50))
+def m_home(username, score, new):
+    text = ''
+    if new == True:
+        text = 'Looks like you are new here.'
+    else:
+        text = 'Well, you already played this game, welcome back!'
+    text += f'\nTherefore, your current score is : {score}'
+
+    return urwid.Overlay(
+        urwid.LineBox(
+            urwid.Pile([
+                ('pack', urwid.Divider()),
+                ('pack', urwid.Text(('ask', f'Welcome, {username}.'), align='center')),
+                ('weight', 5, urwid.Filler(urwid.Text(text))),
+                ('weight', 2, urwid.Filler(
+                    urwid.AttrMap(b_start, None, focus_map='reversed'),
+                    valign='bottom'))]),
+            title='Hi!'),
+        urwid.SolidFill(' '),
+        align='center', width=('relative', 50),
+        valign='middle', height=('relative', 50))
 
 b_enter = urwid.Button('Enter')
 e_username = urwid.Edit(('ask', 'Enter your name:\n> '))
@@ -61,4 +69,4 @@ m_welcome = urwid.Overlay(
     align='center', width=('relative', 50),
     valign='middle', height=('relative', 50))
 
-body = Menu([m_welcome, m_login])
+body = model.Menu([m_welcome, m_login])

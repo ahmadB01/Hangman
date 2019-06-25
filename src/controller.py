@@ -23,4 +23,12 @@ def quit(_button):
     raise urwid.ExitMainLoop()
 
 def enter(_button):
-    pass
+    model.player.username = view.e_username.get_edit_text()
+    model.game.init_score(model.player)
+
+    view.body.append(view.m_home(
+        model.player.username,
+        model.player.score,
+        model.player.new()))
+
+    view.body.next()
