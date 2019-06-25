@@ -2,6 +2,7 @@ import urwid
 import json
 import os
 import random
+import utils
 
 class Menu(urwid.WidgetPlaceholder):
     def __init__(self, widgets):
@@ -38,6 +39,27 @@ class Window(urwid.WidgetPlaceholder):
 class Game(object):
     def __init__(self):
         self.scores = {}
+        self.word = ''
+        self.display = ''
+        self.lives = len(utils.drawings())-1
+
+    @property
+    def wrongs(self):
+        letters = []
+        for i, k in enumerate(self.display):
+            if k == self.word[i]:
+                letters.append(self.word[i])
+
+        return letters
+
+    @property
+    def drawing(self):
+        return '\n'.join(utils.drawings()[::-1][self.lives])
+
+    def update_display(self, letter):
+        for i, k in enumerate(self.word):
+            if k == letter:
+                self.display = self.display[:i] + letter + self.display[i+1:]
 
     def init_score(self, player):
         path = '/home/ahmad/workspace/Hangman/src/data/scores.json'
