@@ -4,9 +4,9 @@ import os
 import random
 import utils
 
-class Menu(urwid.WidgetPlaceholder):
+class Window(urwid.WidgetPlaceholder):
     def __init__(self, widgets):
-        super(Menu, self).__init__(urwid.SolidFill(' '))
+        super(Window, self).__init__(urwid.SolidFill(' '))
         self.widgets = widgets
         self.original_widget = self.widgets[0]
 
@@ -22,19 +22,11 @@ class Menu(urwid.WidgetPlaceholder):
 
     def keypress(self, size, key):
         if key != 'esc':
-            return super(Menu, self).keypress(size, key)
+            return super(Window, self).keypress(size, key)
         if self.widget_index == 0:
             raise urwid.ExitMainLoop()
 
         self.original_widget = self.widgets[self.widget_index-1]
-
-class Window(urwid.WidgetPlaceholder):
-    def __init__(self, widget):
-        super(Window, self).__init__(urwid.SolidFill(' '))
-        self.open(widget)
-
-    def open(self, widget):
-        self.original_widget = widget
 
 class Game(object):
     def __init__(self):

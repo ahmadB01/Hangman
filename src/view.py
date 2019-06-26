@@ -1,6 +1,6 @@
 import urwid
 import utils
-import model
+from model import Window
 
 palette = [
     ('reversed', 'standout', ''),
@@ -81,41 +81,45 @@ b_enter = urwid.Button('Enter')
 e_username = urwid.Edit(('ask', 'Enter your name:\n> '))
 
 def m_login():
-    pass
+    button = urwid.AttrMap(b_enter, None, focus_map='reversed')
 
-m_login = urwid.Overlay(
-    urwid.LineBox(
-        urwid.Pile([
-            ('pack', urwid.Divider()),
-            ('weight', 15, title),
-            ('pack', e_username),
-            ('pack', urwid.Divider()),
-            ('pack', urwid.AttrMap(b_enter, None, focus_map='reversed'))]),
-        title='Sign in'),
-    urwid.SolidFill(' '),
-    align='center', width=('relative', 50),
-    valign='middle', height=('relative', 50))
+    pile = urwid.Pile([
+        ('pack', urwid.Divider()),
+        ('weight', 15, title),
+        ('pack', e_username),
+        ('pack', urwid.Divider()),
+        ('pack', button)])
+
+    return urwid.Overlay(
+        urwid.LineBox(pile, title='Sign in'),
+        urwid.SolidFill(' '),
+        align='center', width=('relative', 50),
+        valign='middle', height=('relative', 50))
 
 b_game = urwid.Button('Enter Game')
 b_quit = urwid.Button('Quit')
 
 def m_welcome():
-    pass
+    button_game = urwid.AttrMap(b_game, None, focus_map='reversed')
+    button_quit = urwid.AttrMap(b_quit, None, focus_map='reversed')
 
-m_welcome = urwid.Overlay(
-    urwid.LineBox(
-        urwid.Pile([
-            ('pack', urwid.Divider()),
-            ('weight', 15, title),
-            ('weight', 4,
-                urwid.Filler(urwid.BoxAdapter(
-                    urwid.ListBox(urwid.SimpleFocusListWalker([
-                        urwid.AttrMap(b_game, None, focus_map='reversed'),
-                        urwid.AttrMap(b_quit, None, focus_map='reversed')])), 2),
-                valign='bottom'))]),
-        title='Welcome'),
-    urwid.SolidFill(' '),
-    align='center', width=('relative', 50),
-    valign='middle', height=('relative', 50))
+    buttons_list = urwid.ListBox(urwid.SimpleFocusListWalker([
+        button_game,
+        button_quit]))
 
-body = model.Menu([m_welcome, m_login])
+    buttons_flow = urwid.BoxAdapter(buttons_list, 2)
+
+    buttons = urwid.Filler(buttons_flow, valign='bottom')
+
+    pile = urwid.Pile([
+        ('pack', urwid.Divider()),
+        ('weight', 15, title),
+        ('weight', 4, buttons)])
+
+    return urwid.Overlay(
+        urwid.LineBox(pile, title='Welcome'),
+        urwid.SolidFill(' '),
+        align='center', width=('relative', 50),
+        valign='middle', height=('relative', 50))
+
+body = Window([m_welcome(), m_login()])
