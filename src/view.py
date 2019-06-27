@@ -21,33 +21,46 @@ def s_game(display, player, drawing, wrongs):
     current = urwid.LineBox(
         urwid.Frame(
             urwid.Filler(urwid.Text(drawing, align='center')),
-            urwid.Text(', '.join(wrongs))))
+            header=urwid.Text(', '.join(wrongs), align='center')))
+
+    button_ok = urwid.Filler(
+        urwid.AttrMap(b_game_ok, None, focus_map='reversed'),
+        valign='bottom')
 
     input_letter = urwid.LineBox(
         urwid.Pile([
             ('pack', e_word),
-            ('pack', b_game_ok)]))
+            ('weight', 1, button_ok)]))
 
     word = urwid.Filler(
         urwid.Pile([
-            ('pack', urwid.Text(('ask', 'Word:\n'))),
-            ('pack', urwid.Text(display))]))
+            ('pack', urwid.Divider()),
+            ('pack', urwid.Text(('ask', 'Word:\n'), align='center')),
+            ('pack', urwid.Text(display, align='center'))]),
+        height=('relative', 100), min_height=50)
+
+    box_word = urwid.LineBox(word)
 
     piles_left = urwid.Pile([
-        (36, word),
-        ('weight', 36, input_letter)])
+        ('weight', 2, box_word),
+        ('weight', 1, input_letter)])
 
     piles_right = urwid.Pile([
-        (20, scores),
-        (50, current)])
+        ('weight', 1, scores),
+        ('weight', 5, current)])
 
     columns = urwid.Columns([
-        (35, piles_left),
-        (35, piles_right)])
+        ('weight', 2, piles_left),
+        ('weight', 1, piles_right)])
 
-    return urwid.Overlay(columns, urwid.SolidFill(' '),
-        align='center', width=('relative', 75),
-        valign='middle', height=('relative', 75))
+    padding = urwid.Padding(columns, align='center')
+
+    return urwid.Overlay(
+        urwid.LineBox(padding, title='Game'),
+        urwid.SolidFill(' '),
+        align='center', width=('relative', 50),
+        valign='middle', height=('relative', 50),
+        min_width=100, min_height=25)
 
 b_start = urwid.Button('Start!')
 
@@ -75,7 +88,8 @@ def m_home(username, score, new):
         urwid.LineBox(pile, title='Hi!'),
         urwid.SolidFill(' '),
         align='center', width=('relative', 50),
-        valign='middle', height=('relative', 50))
+        valign='middle', height=('relative', 50),
+        min_width=100, min_height=25)
 
 b_enter = urwid.Button('Enter')
 e_username = urwid.Edit(('ask', 'Enter your name:\n> '))
@@ -85,7 +99,7 @@ def m_login():
 
     pile = urwid.Pile([
         ('pack', urwid.Divider()),
-        ('weight', 15, title),
+        ('weight', 5, title),
         ('pack', e_username),
         ('pack', urwid.Divider()),
         ('pack', button)])
@@ -94,7 +108,8 @@ def m_login():
         urwid.LineBox(pile, title='Sign in'),
         urwid.SolidFill(' '),
         align='center', width=('relative', 50),
-        valign='middle', height=('relative', 50))
+        valign='middle', height=('relative', 50),
+        min_width=100, min_height=25)
 
 b_game = urwid.Button('Enter Game')
 b_quit = urwid.Button('Quit')
@@ -113,13 +128,14 @@ def m_welcome():
 
     pile = urwid.Pile([
         ('pack', urwid.Divider()),
-        ('weight', 15, title),
-        ('weight', 4, buttons)])
+        ('weight', 5, title),
+        ('weight', 1, buttons)])
 
     return urwid.Overlay(
         urwid.LineBox(pile, title='Welcome'),
         urwid.SolidFill(' '),
         align='center', width=('relative', 50),
-        valign='middle', height=('relative', 50))
+        valign='middle', height=('relative', 50),
+        min_width=100, min_height=25)
 
 body = Window([m_welcome(), m_login()])
