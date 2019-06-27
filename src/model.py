@@ -32,8 +32,11 @@ class Game(object):
     def __init__(self):
         self.scores = {}
         self.word = ''
-        self.display = ''
         self.lives = len(utils.drawings())-1
+
+    @property
+    def display(self):
+        return '*' * len(self.word)
 
     @property
     def wrongs(self):
