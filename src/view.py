@@ -1,6 +1,6 @@
 import urwid
 import utils
-from model import Window
+import model
 
 palette = [
     ('reversed', 'standout', ''),
@@ -9,7 +9,7 @@ palette = [
 title = urwid.Filler(urwid.Text(utils.random_style(), align='center'))
 
 b_game_ok = urwid.Button('OK')
-e_word = urwid.Edit(('ask', 'Enter a letter:\n> '))
+e_letter = urwid.Edit(('ask', 'Enter a letter:\n> '))
 
 def s_game(display, player, drawing, wrongs):
     scores = urwid.LineBox(
@@ -29,7 +29,7 @@ def s_game(display, player, drawing, wrongs):
 
     input_letter = urwid.LineBox(
         urwid.Pile([
-            ('pack', e_word),
+            ('pack', e_letter),
             ('weight', 1, button_ok)]))
 
     word = urwid.Filler(
@@ -42,7 +42,7 @@ def s_game(display, player, drawing, wrongs):
     box_word = urwid.LineBox(word)
 
     piles_left = urwid.Pile([
-        ('weight', 2, box_word),
+        ('weight', 1, box_word),
         ('weight', 1, input_letter)])
 
     piles_right = urwid.Pile([
@@ -64,15 +64,15 @@ def s_game(display, player, drawing, wrongs):
 
 b_start = urwid.Button('Start!')
 
-def m_home(username, score, new):
+def m_home(player, new):
     raw = ''
     if new == True:
         raw = 'Looks like you are new here.'
     else:
         raw = 'Well, you already played this game, welcome back!'
-    raw += f'\nTherefore, your current score is : {score}'
+    raw += f'\nTherefore, your current score is : {player.score}'
 
-    title = urwid.Text(('ask', f'Welcome, {username}.'), align='center')
+    title = urwid.Text(('ask', f'Welcome, {player.username}.'), align='center')
     text = urwid.Filler(urwid.Text(raw))
     button = urwid.Filler(
         urwid.AttrMap(b_start, None, focus_map='reversed'),
@@ -82,7 +82,7 @@ def m_home(username, score, new):
         ('pack', urwid.Divider()),
         ('pack', title),
         ('weight', 5, text),
-        ('weight', 2, button)])
+        ('weight', 1, button)])
 
     return urwid.Overlay(
         urwid.LineBox(pile, title='Hi!'),
@@ -138,4 +138,5 @@ def m_welcome():
         valign='middle', height=('relative', 50),
         min_width=100, min_height=25)
 
-body = Window([m_welcome(), m_login()])
+menu = model.Menu([m_welcome(), m_login()])
+body = model.Window(menu)
