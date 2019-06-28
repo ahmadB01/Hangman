@@ -53,9 +53,8 @@ class Game(object):
             if k == letter:
                 self.display = self.display[:i] + letter + self.display[i+1:]
 
-
     def init_score(self, player):
-        path = '/home/ahmad/workspace/Hangman/src/data/scores.json'
+        path = 'src/data/scores.json'
 
         if not os.path.isfile(path):
             self.register_score(player)
@@ -67,9 +66,14 @@ class Game(object):
             player.score = self.scores[player.username]
 
     def register_score(self, player):
+        path = 'src/data/scores.json'
+
         self.scores[player.username] = player.score
         with open(path, 'w') as sf:
             sf.write(json.dumps(self.scores))
+
+    def won(self):
+        return self.word == self.display
 
 class Player(object):
     def __init__(self):
@@ -77,7 +81,7 @@ class Player(object):
         self.score = 0
 
     def new(self):
-        path = '/home/ahmad/workspace/Hangman/src/data/scores.json'
+        path = 'src/data/scores.json'
         scores = {}
         with open(path, 'r') as sf:
             scores = json.loads(sf.read())
