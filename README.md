@@ -1,7 +1,8 @@
 # Hangman
->Note: the words are in french
+>Note: the words are in french  
 
-The code may be disgusting (and my english too), but I am actually a beginner in programmation languages :p
-I hope you will understand the code with the comments
+This is the classical Hangman game.  
+It is written in Python, and using the Urwid library.  
+Therefore, it does not work on Windows.  
 
 Thank you :p
