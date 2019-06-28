@@ -8,6 +8,35 @@ palette = [
 
 title = urwid.Filler(urwid.Text(utils.random_style(), align='center'))
 
+b_quit = urwid.Button('Quit')
+
+def s_endgame(player, won, lives, word):
+    title = 'You won!' if won else 'You lost!'
+    raw = ''
+    if won:
+        raw = f'Congratulations, you won with {lives} trie(s) left!'
+    else:
+        raw = f'Sorry, but you lost!'
+    raw += f'\nTherefore, {player.username}\'s current score is: {player.score}'
+    raw += f'\nThe word was indeed: {word}'
+
+    text = urwid.Filler(urwid.Text(raw, align='center'))
+    button = urwid.Filler(
+        urwid.AttrMap(b_quit, None, focus_map='reversed'),
+        valign='bottom')
+
+    pile = urwid.Pile([
+        ('pack', urwid.Divider()),
+        ('weight', 5, text),
+        ('weight', 1, button)])
+
+    return urwid.Overlay(
+        urwid.LineBox(pile, title=title),
+        urwid.SolidFill(' '),
+        align='center', width=('relative', 50),
+        valign='middle', height=('relative', 50),
+        min_width=100, min_height=25)
+
 b_game_ok = urwid.Button('OK')
 e_letter = urwid.Edit(('ask', 'Enter a letter:\n> '))
 
@@ -73,7 +102,7 @@ def m_home(player, new):
     raw += f'\nTherefore, your current score is : {player.score}'
 
     title = urwid.Text(('ask', f'Welcome, {player.username}.'), align='center')
-    text = urwid.Filler(urwid.Text(raw))
+    text = urwid.Filler(urwid.Text(raw, align='center'))
     button = urwid.Filler(
         urwid.AttrMap(b_start, None, focus_map='reversed'),
         valign='bottom')
@@ -112,7 +141,6 @@ def m_login():
         min_width=100, min_height=25)
 
 b_game = urwid.Button('Enter Game')
-b_quit = urwid.Button('Quit')
 
 def m_welcome():
     button_game = urwid.AttrMap(b_game, None, focus_map='reversed')
