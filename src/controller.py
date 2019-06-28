@@ -16,7 +16,17 @@ def main():
     except KeyboardInterrupt:
         pass
 
-def display():
+def end():
+    model.player.score += model.game.lives
+    model.game.register_score(model.player)
+
+    view.body.open(view.s_endgame(
+        model.player,
+        model.game.won(),
+        model.game.lives,
+        model.game.word))
+
+def s_game():
     view.body.open(view.s_game(
         model.game.display,
         model.player,
@@ -33,7 +43,11 @@ def quit(_button):
 
 @eventhandler(view.b_enter)
 def enter(_button):
-    model.player.username = view.e_username.get_edit_text()
+    username = view.e_username.get_edit_text()
+    if ' ' in username or username == '':
+        return
+
+    model.player.username = username
     model.game.init_score(model.player)
 
     view.body.open(view.m_home(
@@ -44,17 +58,25 @@ def enter(_button):
 def start(_button):
     model.game.word = utils.random_word()
     model.game.display = '*' * len(model.game.word)
-    display()
+    s_game()
 
 @eventhandler(view.b_game_ok)
 def update(_button):
-    letter = view.e_letter.get_edit_text()[0].upper()
+    letter = view.e_letter.get_edit_text()
+
+    if model.game.lives == 0 or model.game.won():
+        end()
+        return
+    elif not letter.isalpha() or letter == '':
+        return
+
+    letter = letter[0].upper()
     view.e_letter.set_edit_text('')
 
     if letter in model.game.word:
         model.game.update_display(letter)
-    else:
+    elif letter not in model.game.wrongs:
         model.game.wrongs.append(letter)
         model.game.lives -= 1
 
-    display()
+    s_game()
