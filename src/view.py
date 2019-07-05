@@ -14,11 +14,11 @@ def s_endgame(player, won, lives, word):
     title = 'You won!' if won else 'You lost!'
     raw = ''
     if won:
-        raw = f'Congratulations, you won with {lives} trie(s) left!'
+        raw = 'Congratulations, you won with {} trie(s) left!'.format(lives)
     else:
-        raw = f'Sorry, but you lost!'
-    raw += f'\nTherefore, {player.username}\'s current score is: {player.score}'
-    raw += f'\nThe word was indeed: {word}'
+        raw = 'Sorry, but you lost!'
+    raw += '\nTherefore, {0.username}\'s current score is: {0.score}'.format(player)
+    raw += '\nThe word was indeed: {}'.format(word)
 
     text = urwid.Filler(urwid.Text(raw, align='center'))
     button = urwid.Filler(
@@ -43,8 +43,8 @@ e_letter = urwid.Edit(('ask', 'Enter a letter:\n> '))
 def s_game(display, player, drawing, wrongs):
     scores = urwid.LineBox(
         urwid.Pile([
-            ('pack', urwid.Text(f'Username: {player.username}.')),
-            ('pack', urwid.Text(f'Score: {player.score}.'))]),
+            ('pack', urwid.Text('Username: {}.'.format(player.username))),
+            ('pack', urwid.Text('Score: {}.'.format(player.score)))]),
         title='Player')
 
     current = urwid.LineBox(
@@ -99,9 +99,9 @@ def m_home(player, new):
         raw = 'Looks like you are new here.'
     else:
         raw = 'Well, you already played this game, welcome back!'
-    raw += f'\nTherefore, your current score is : {player.score}'
+    raw += '\nTherefore, your current score is : {}'.format(player.score)
 
-    title = urwid.Text(('ask', f'Welcome, {player.username}.'), align='center')
+    title = urwid.Text(('ask', 'Welcome, {}.'.format(player.username)), align='center')
     text = urwid.Filler(urwid.Text(raw, align='center'))
     button = urwid.Filler(
         urwid.AttrMap(b_start, None, focus_map='reversed'),
